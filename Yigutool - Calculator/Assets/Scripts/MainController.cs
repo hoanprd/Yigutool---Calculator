@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainController : MonoBehaviour
 {
     public GameObject P1Panel, P2Panel;
-    public GameObject SettingPanel, ToolPanel;
+    public GameObject SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmToMenuPanel;
     public GameObject P1ShowTurn, P2ShowTurn;
+    public GameObject[] DiceFace;
+    public GameObject[] CoinFace;
+    public Button DP, SP, MP1, BP, MP2, EP;
     public Animator AniSetting, AniTool;
     public Text P1LPText, P2LPText;
     public Text NumTurnText;
 
-    public int NumTurn, PGo;
+    public int NumTurn, PGo, DiceRand, CoinRand;
     public static int P1LP, P2LP;
     private int SettingIndex, ToolIndex;
 
@@ -78,6 +82,67 @@ public class MainController : MonoBehaviour
         NumTurnText.text = "Turn\n" + NumTurn;
     }
 
+    //Phase
+    public void DPButton()
+    {
+        DP.image.color = Color.green;
+        SP.image.color = Color.white;
+        MP1.image.color = Color.white;
+        BP.image.color = Color.white;
+        MP2.image.color = Color.white;
+        EP.image.color = Color.white;
+    }
+
+    public void SPButton()
+    {
+        DP.image.color = Color.white;
+        SP.image.color = Color.green;
+        MP1.image.color = Color.white;
+        BP.image.color = Color.white;
+        MP2.image.color = Color.white;
+        EP.image.color = Color.white;
+    }
+
+    public void MP1Button()
+    {
+        DP.image.color = Color.white;
+        SP.image.color = Color.white;
+        MP1.image.color = Color.green;
+        BP.image.color = Color.white;
+        MP2.image.color = Color.white;
+        EP.image.color = Color.white;
+    }
+
+    public void BPButton()
+    {
+        DP.image.color = Color.white;
+        SP.image.color = Color.white;
+        MP1.image.color = Color.white;
+        BP.image.color = Color.green;
+        MP2.image.color = Color.white;
+        EP.image.color = Color.white;
+    }
+
+    public void MP2Button()
+    {
+        DP.image.color = Color.white;
+        SP.image.color = Color.white;
+        MP1.image.color = Color.white;
+        BP.image.color = Color.white;
+        MP2.image.color = Color.green;
+        EP.image.color = Color.white;
+    }
+
+    public void EPButton()
+    {
+        DP.image.color = Color.white;
+        SP.image.color = Color.white;
+        MP1.image.color = Color.white;
+        BP.image.color = Color.white;
+        MP2.image.color = Color.white;
+        EP.image.color = Color.green;
+    }
+
     //Open/Close Panel
     public void P1CalPanelOpen()
     {
@@ -104,6 +169,21 @@ public class MainController : MonoBehaviour
         }
     }
 
+    public void GoBackToMenu()
+    {
+        ConfirmToMenuPanel.SetActive(true);
+    }
+
+    public void YesToMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void NoToMenu()
+    {
+        ConfirmToMenuPanel.SetActive(false);
+    }
+
     public void ToolPanelOpen()
     {
         ToolIndex++;
@@ -116,6 +196,88 @@ public class MainController : MonoBehaviour
         else if (ToolIndex % 2 == 0)
         {
             AniTool.SetTrigger("CloseTool");
+        }
+    }
+
+    public void DicePanelOpen()
+    {
+        DicePanel.SetActive(true);
+    }
+
+    public void CoinPanelOpen()
+    {
+        CoinPanel.SetActive(true);
+    }
+
+    public void DicePanelClose()
+    {
+        DicePanel.SetActive(false);
+    }
+
+    public void CoinPanelClose()
+    {
+        CoinPanel.SetActive(false);
+    }
+
+    //Save duel function
+
+    //Dice function
+    public void RollDice()
+    {
+        StartCoroutine(DelayDice());
+    }
+
+    //Coin function
+    public void FlipCoin()
+    {
+        StartCoroutine(DelayCoin());
+    }
+
+    //Delay
+    IEnumerator DelayDice()
+    {
+        DiceRand = Random.Range(0, 6);
+
+        for (int i = 0; i < DiceFace.Length; i++)
+        {
+            DiceFace[i].SetActive(false);
+        }
+
+        for (int i = 0; i < DiceFace.Length; i++)
+        {
+            DiceFace[i].SetActive(true);
+            if (i >= 1)
+            {
+                DiceFace[i - 1].SetActive(false);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        for (int i = 0; i < DiceFace.Length; i++)
+        {
+            if (DiceRand == i)
+                DiceFace[i].SetActive(true);
+            else
+                DiceFace[i].SetActive(false);
+        }
+    }
+
+    IEnumerator DelayCoin()
+    {
+        CoinRand = Random.Range(0, 2);
+
+        for (int i = 0; i < CoinFace.Length; i++)
+        {
+            CoinFace[i].SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        for (int i = 0; i < CoinFace.Length; i++)
+        {
+            if (CoinRand == i)
+                CoinFace[i].SetActive(true);
+            else
+                CoinFace[i].SetActive(false);
         }
     }
 }
