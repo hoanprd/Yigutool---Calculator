@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class P1Calculator : MonoBehaviour
+public class P2Calculator : MonoBehaviour
 {
-    public GameObject P1Panel;
-    public InputField P1CurLPInput, ValueInput;
+    public GameObject P2Panel;
+    public InputField P2CurLPInput, ValueInput;
     public Button Add, Sub, Div;
 
     public string Value;
@@ -16,19 +16,19 @@ public class P1Calculator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        P1CurLPInput.text = "" + MainController.P1LP;
+        P2CurLPInput.text = "" + MainController.P2LP;
         IndexCal = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        P1CurLPInput.text = "" + MainController.P1LP;
+        P2CurLPInput.text = "" + MainController.P2LP;
     }
 
     void UIUpdate()
     {
-        P1CurLPInput.text = "" + MainController.P1LP;
+        P2CurLPInput.text = "" + MainController.P2LP;
         ValueInput.text = "" + Value;
     }
 
@@ -122,46 +122,46 @@ public class P1Calculator : MonoBehaviour
         UIUpdate();
     }
 
-    public void OKP1()
+    public void OKP2()
     {
         if (IndexCal == 1)
         {
-            MainController.P1LP += Convert.ToInt32(Value);
-            if (MainController.P1LP < 0)
+            MainController.P2LP += Convert.ToInt32(Value);
+            if (MainController.P2LP < 0)
             {
-                MainController.P1LP = 0;
+                MainController.P2LP = 0;
             }
             DeleteValue();
 
-            P1CalPanelClose();
+            P2CalPanelClose();
         }
         else if (IndexCal == 2)
         {
-            MainController.P1LP -= Convert.ToInt32(Value);
-            if (MainController.P1LP < 0)
+            MainController.P2LP -= Convert.ToInt32(Value);
+            if (MainController.P2LP < 0)
             {
-                MainController.P1LP = 0;
+                MainController.P2LP = 0;
             }
             DeleteValue();
 
-            P1CalPanelClose();
+            P2CalPanelClose();
         }
         else if (IndexCal == 3)
         {
-            MainController.P1LP /= Convert.ToInt32(Value);
-            if (MainController.P1LP < 0)
+            MainController.P2LP /= Convert.ToInt32(Value);
+            if (MainController.P2LP < 0)
             {
-                MainController.P1LP = 0;
+                MainController.P2LP = 0;
             }
             DeleteValue();
 
 
-            P1CalPanelClose();
+            P2CalPanelClose();
         }
     }
 
-    public void P1CalPanelClose()
+    public void P2CalPanelClose()
     {
-        P1Panel.SetActive(false);
+        P2Panel.SetActive(false);
     }
 }
