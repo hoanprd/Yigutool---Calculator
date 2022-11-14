@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class MainController : MonoBehaviour
 {
+    P1Calculator p1c;
+    P2Calculator p2c;
+
     public GameObject P1Panel, P2Panel;
     public GameObject SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmToMenuPanel;
     public GameObject P1ShowTurn, P2ShowTurn;
@@ -13,18 +16,18 @@ public class MainController : MonoBehaviour
     public GameObject[] CoinFace;
     public Button DP, SP, MP1, BP, MP2, EP;
     public Animator AniSetting, AniTool;
-    public Text P1LPText, P2LPText;
+    public Text P1NameTag, P2NameTag, P1LPText, P2LPText;
     public Text NumTurnText;
 
-    public int NumTurn, PGo, DiceRand, CoinRand;
-    public static int P1LP, P2LP;
+    public int PGo, DiceRand, CoinRand;
+    public static int NumTurn, StatePhase, P1LP, P2LP;
+    public static string P1Name, P2Name, Log;
     private int SettingIndex, ToolIndex;
 
     // Start is called before the first frame update
     void Start()
     {
         SettingIndex = ToolIndex = 0;
-        NumTurn = 1;
 
         if (MenuController.GoFirst == 1)
         {
@@ -37,9 +40,13 @@ public class MainController : MonoBehaviour
             PGo = 2;
         }
 
-        P1LP = 8000;
-        P2LP = 8000;
+        P1NameTag.text = P1Name;
+        P2NameTag.text = P2Name;
+
         UpdateUI();
+
+        p1c = FindObjectOfType<P1Calculator>();
+        p2c = FindObjectOfType<P2Calculator>();
     }
 
     // Update is called once per frame
@@ -50,6 +57,7 @@ public class MainController : MonoBehaviour
 
     void UpdateUI()
     {
+        NumTurnText.text = "Turn\n" + NumTurn;
         P1LPText.text = "" + P1LP;
         P2LPText.text = "" + P2LP;
 
@@ -73,6 +81,19 @@ public class MainController : MonoBehaviour
             P1ShowTurn.SetActive(true);
             P2ShowTurn.SetActive(false);
         }
+
+        if (StatePhase == 1)
+            DPButton();
+        else if (StatePhase == 2)
+            SPButton();
+        else if (StatePhase == 3)
+            MP1Button();
+        else if (StatePhase == 4)
+            BPButton();
+        else if (StatePhase == 5)
+            MP2Button();
+        else if (StatePhase == 6)
+            EPButton();
     }
 
     //Turn
@@ -85,6 +106,7 @@ public class MainController : MonoBehaviour
     //Phase
     public void DPButton()
     {
+        StatePhase = 1;
         DP.image.color = Color.green;
         SP.image.color = Color.white;
         MP1.image.color = Color.white;
@@ -95,6 +117,7 @@ public class MainController : MonoBehaviour
 
     public void SPButton()
     {
+        StatePhase = 2;
         DP.image.color = Color.white;
         SP.image.color = Color.green;
         MP1.image.color = Color.white;
@@ -105,6 +128,7 @@ public class MainController : MonoBehaviour
 
     public void MP1Button()
     {
+        StatePhase = 3;
         DP.image.color = Color.white;
         SP.image.color = Color.white;
         MP1.image.color = Color.green;
@@ -115,6 +139,7 @@ public class MainController : MonoBehaviour
 
     public void BPButton()
     {
+        StatePhase = 4;
         DP.image.color = Color.white;
         SP.image.color = Color.white;
         MP1.image.color = Color.white;
@@ -125,6 +150,7 @@ public class MainController : MonoBehaviour
 
     public void MP2Button()
     {
+        StatePhase = 5;
         DP.image.color = Color.white;
         SP.image.color = Color.white;
         MP1.image.color = Color.white;
@@ -135,6 +161,7 @@ public class MainController : MonoBehaviour
 
     public void EPButton()
     {
+        StatePhase = 6;
         DP.image.color = Color.white;
         SP.image.color = Color.white;
         MP1.image.color = Color.white;
@@ -147,11 +174,13 @@ public class MainController : MonoBehaviour
     public void P1CalPanelOpen()
     {
         P1Panel.SetActive(true);
+        p1c.UIUpdate();
     }
 
     public void P2CalPanelOpen()
     {
         P2Panel.SetActive(true);
+        p2c.UIUpdate();
     }
 
     public void SettingPanelOpen()
@@ -220,6 +249,16 @@ public class MainController : MonoBehaviour
     }
 
     //Save duel function
+    public void SaveDuel()
+    {
+        PlayerPrefs.SetInt("STurn", NumTurn);
+        PlayerPrefs.SetInt("SStatePhase", StatePhase);
+        PlayerPrefs.SetInt("SP1LP", P1LP);
+        PlayerPrefs.SetInt("SP2LP", P2LP);
+        PlayerPrefs.SetString("SP1Name", P1Name);
+        PlayerPrefs.SetString("SP2Name", P2Name);
+        PlayerPrefs.SetString("SLog", Log);
+    }
 
     //Dice function
     public void RollDice()

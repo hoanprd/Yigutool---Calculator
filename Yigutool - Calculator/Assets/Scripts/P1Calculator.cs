@@ -9,6 +9,7 @@ public class P1Calculator : MonoBehaviour
     public GameObject P1Panel;
     public InputField P1CurLPInput, ValueInput;
     public Button Add, Sub, Div;
+    public Text LogText;
 
     public string Value;
     int IndexCal;
@@ -23,11 +24,12 @@ public class P1Calculator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        P1CurLPInput.text = "" + MainController.P1LP;
+        
     }
 
-    void UIUpdate()
+    public void UIUpdate()
     {
+        LogText.text = MainController.Log;
         P1CurLPInput.text = "" + MainController.P1LP;
         ValueInput.text = "" + Value;
     }
@@ -131,6 +133,16 @@ public class P1Calculator : MonoBehaviour
             {
                 MainController.P1LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
+            }
+
             DeleteValue();
 
             P1CalPanelClose();
@@ -142,6 +154,16 @@ public class P1Calculator : MonoBehaviour
             {
                 MainController.P1LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
+            }
+
             DeleteValue();
 
             P1CalPanelClose();
@@ -153,6 +175,16 @@ public class P1Calculator : MonoBehaviour
             {
                 MainController.P1LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
+            }
+
             DeleteValue();
 
 

@@ -9,9 +9,10 @@ public class P2Calculator : MonoBehaviour
     public GameObject P2Panel;
     public InputField P2CurLPInput, ValueInput;
     public Button Add, Sub, Div;
+    public Text LogText;
 
     public string Value;
-    int IndexCal;
+    int IndexCal, once = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +24,16 @@ public class P2Calculator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        P2CurLPInput.text = "" + MainController.P2LP;
+        if (once == 0)
+        {
+            P2CurLPInput.text = "" + MainController.P2LP;
+            once = 1;
+        }
     }
 
-    void UIUpdate()
+    public void UIUpdate()
     {
+        LogText.text = MainController.Log;
         P2CurLPInput.text = "" + MainController.P2LP;
         ValueInput.text = "" + Value;
     }
@@ -131,6 +137,16 @@ public class P2Calculator : MonoBehaviour
             {
                 MainController.P2LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " + " + Value + " = " + MainController.P2LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " + " + Value + " = " + MainController.P2LP;
+            }
+
             DeleteValue();
 
             P2CalPanelClose();
@@ -142,6 +158,16 @@ public class P2Calculator : MonoBehaviour
             {
                 MainController.P2LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " - " + Value + " = " + MainController.P2LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " - " + Value + " = " + MainController.P2LP;
+            }
+
             DeleteValue();
 
             P2CalPanelClose();
@@ -153,6 +179,16 @@ public class P2Calculator : MonoBehaviour
             {
                 MainController.P2LP = 0;
             }
+
+            if (MainController.Log == null || MainController.Log == "")
+            {
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " : " + Value + " = " + MainController.P2LP;
+            }
+            else
+            {
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P2Name + "): " + P2CurLPInput.text + " : " + Value + " = " + MainController.P2LP;
+            }
+
             DeleteValue();
 
 
