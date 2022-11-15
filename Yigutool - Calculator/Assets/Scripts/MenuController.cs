@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
     public GameObject LogA;
     public GameObject[] DiceFace;
     public InputField P1NameInput, P2NameInput, LPInput, TurnTimerInput;
+    public AudioSource NCS, CCS, CS;
 
     public static string P1Name, P2Name;
     public int DiceRand;
@@ -48,34 +49,33 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OpenDuelPanel()
     {
+        NCS.Play();
         DuelPanel.SetActive(true);
     }
 
     public void CloseDuelPanel()
     {
+        NCS.Play();
         DuelPanel.SetActive(false);
     }
 
     public void GoDuel()
     {
+        NCS.Play();
         DuelPanelConfirm.SetActive(true);
     }
 
     public void CloseConfirmPanel()
     {
+        NCS.Play();
         DuelPanelConfirm.SetActive(false);
     }
 
     public void P1GoFirst()
     {
+        NCS.Play();
         GoFirst = 1;
         MainController.P1Name = P1NameInput.text;
         MainController.P2Name = P2NameInput.text;
@@ -92,6 +92,7 @@ public class MenuController : MonoBehaviour
 
     public void P2GoFirst()
     {
+        NCS.Play();
         GoFirst = 2;
         MainController.P1Name = P1NameInput.text;
         MainController.P2Name = P2NameInput.text;
@@ -108,11 +109,13 @@ public class MenuController : MonoBehaviour
 
     public void RollDice()
     {
+        NCS.Play();
         StartCoroutine(DelayDice());
     }
 
     public void LoadDuel()
     {
+        NCS.Play();
         if (PlayerPrefs.GetInt("SSave") == 1)
         {
             MainController.NumTurn = PlayerPrefs.GetInt("STurn");
@@ -135,37 +138,44 @@ public class MenuController : MonoBehaviour
 
     public void OpenHowToUsePanel()
     {
+        NCS.Play();
         HowToUsePanel.SetActive(true);
     }
 
     public void OpenSettingPanel()
     {
+        NCS.Play();
         SettingPanel.SetActive(true);
     }
 
     public void DeleteLoadDuel()
     {
+        NCS.Play();
         PlayerPrefs.SetInt("SSave", 0);
     }
 
     public void ExitApp()
     {
+        NCS.Play();
         Application.Quit();
     }
 
     public void CloseHowToUsePanel()
     {
+        NCS.Play();
         HowToUsePanel.SetActive(false);
     }
 
     public void CloseSettingPanel()
     {
+        NCS.Play();
         PlayerPrefs.SetInt("SSettingLP", Convert.ToInt32(LPInput.text));
         SettingPanel.SetActive(false);
     }
 
     public void AboutUsButton()
     {
+        NCS.Play();
         Process.Start("https://www.facebook.com/hoan.nguyenduy.7967");
     }
 

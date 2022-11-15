@@ -18,6 +18,7 @@ public class MainController : MonoBehaviour
     public Animator AniSetting, AniTool;
     public Text P1NameTag, P2NameTag, P1LPText, P2LPText, P1TurnTimerText, P2TurnTimerText;
     public Text NumTurnText;
+    public AudioSource NCS, CCS, CS;
 
     public int PGo, DiceRand, CoinRand, MinTurnTimerP1, SecTurnTimerP1, MinTurnTimerP2, SecTurnTimerP2, PauseTimerIndexP1, PauseTimerIndexP2;
     public bool P1PauseTimer, P2PauseTimer;
@@ -152,6 +153,7 @@ public class MainController : MonoBehaviour
     //Turn
     public void ChangeTurn()
     {
+        NCS.Play();
         NumTurn++;
         NumTurnText.text = "Turn\n" + NumTurn;
         TotalTurnTimerP1 = BaseTotalTurnTimer;
@@ -161,6 +163,7 @@ public class MainController : MonoBehaviour
     //Timer
     public void P1PauseButton()
     {
+        NCS.Play();
         PauseTimerIndexP1++;
         if (PauseTimerIndexP1 % 2 != 0)
             P1PauseTimer = true;
@@ -170,6 +173,7 @@ public class MainController : MonoBehaviour
 
     public void P2PauseButton()
     {
+        NCS.Play();
         PauseTimerIndexP2++;
         if (PauseTimerIndexP2 % 2 != 0)
             P2PauseTimer = true;
@@ -247,18 +251,21 @@ public class MainController : MonoBehaviour
     //Open/Close Panel
     public void P1CalPanelOpen()
     {
+        NCS.Play();
         P1Panel.SetActive(true);
         p1c.UIUpdate();
     }
 
     public void P2CalPanelOpen()
     {
+        NCS.Play();
         P2Panel.SetActive(true);
         p2c.UIUpdate();
     }
 
     public void SettingPanelOpen()
     {
+        NCS.Play();
         SettingIndex++;
 
         if (SettingIndex % 2 != 0)
@@ -274,21 +281,25 @@ public class MainController : MonoBehaviour
 
     public void GoBackToMenu()
     {
+        NCS.Play();
         ConfirmToMenuPanel.SetActive(true);
     }
 
     public void YesToMenu()
     {
+        NCS.Play();
         SceneManager.LoadScene("Menu");
     }
 
     public void NoToMenu()
     {
+        NCS.Play();
         ConfirmToMenuPanel.SetActive(false);
     }
 
     public void ToolPanelOpen()
     {
+        NCS.Play();
         ToolIndex++;
 
         if (ToolIndex % 2 != 0)
@@ -304,27 +315,32 @@ public class MainController : MonoBehaviour
 
     public void DicePanelOpen()
     {
+        NCS.Play();
         DicePanel.SetActive(true);
     }
 
     public void CoinPanelOpen()
     {
+        NCS.Play();
         CoinPanel.SetActive(true);
     }
 
     public void DicePanelClose()
     {
+        NCS.Play();
         DicePanel.SetActive(false);
     }
 
     public void CoinPanelClose()
     {
+        NCS.Play();
         CoinPanel.SetActive(false);
     }
 
     //Save duel function
     public void SaveDuel()
     {
+        NCS.Play();
         PlayerPrefs.SetInt("STurn", NumTurn);
         PlayerPrefs.SetInt("SStatePhase", StatePhase);
         PlayerPrefs.SetInt("SP1LP", P1LP);
@@ -341,12 +357,14 @@ public class MainController : MonoBehaviour
     //Dice function
     public void RollDice()
     {
+        NCS.Play();
         StartCoroutine(DelayDice());
     }
 
     //Coin function
     public void FlipCoin()
     {
+        NCS.Play();
         StartCoroutine(DelayCoin());
     }
 

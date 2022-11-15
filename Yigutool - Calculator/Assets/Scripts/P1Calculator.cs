@@ -10,6 +10,7 @@ public class P1Calculator : MonoBehaviour
     public InputField P1CurLPInput, ValueInput;
     public Button Add, Sub, Div;
     public Text LogText;
+    public AudioSource NCS, CCS, CS;
 
     public string Value;
     int IndexCal;
@@ -36,6 +37,7 @@ public class P1Calculator : MonoBehaviour
 
     public void AddValue()
     {
+        CCS.Play();
         IndexCal = 1;
         Add.image.color = Color.green;
         Sub.image.color = Color.white;
@@ -44,6 +46,7 @@ public class P1Calculator : MonoBehaviour
 
     public void SubValue()
     {
+        CCS.Play();
         IndexCal = 2;
         Add.image.color = Color.white;
         Sub.image.color = Color.green;
@@ -52,6 +55,7 @@ public class P1Calculator : MonoBehaviour
 
     public void DivValue()
     {
+        CCS.Play();
         IndexCal = 3;
         Add.image.color = Color.white;
         Sub.image.color = Color.white;
@@ -60,66 +64,77 @@ public class P1Calculator : MonoBehaviour
 
     public void button0()
     {
+        CCS.Play();
         Value += "0";
         UIUpdate();
     }
 
     public void button1()
     {
+        CCS.Play();
         Value += "1";
         UIUpdate();
     }
 
     public void button2()
     {
+        CCS.Play();
         Value += "2";
         UIUpdate();
     }
 
     public void button3()
     {
+        CCS.Play();
         Value += "3";
         UIUpdate();
     }
 
     public void button4()
     {
+        CCS.Play();
         Value += "4";
         UIUpdate();
     }
 
     public void button5()
     {
+        CCS.Play();
         Value += "5";
         UIUpdate();
     }
 
     public void button6()
     {
+        CCS.Play();
         Value += "6";
         UIUpdate();
     }
 
     public void button7()
     {
+        CCS.Play();
         Value += "7";
         UIUpdate();
     }
 
     public void button8()
     {
+        CCS.Play();
         Value += "8";
         UIUpdate();
     }
 
     public void button9()
     {
+        CCS.Play();
         Value += "9";
         UIUpdate();
     }
 
     public void DeleteValue()
     {
+        CCS.Play();
         Value = null;
         UIUpdate();
     }
@@ -128,6 +143,7 @@ public class P1Calculator : MonoBehaviour
     {
         if (IndexCal == 1)
         {
+            CS.Play();
             MainController.P1LP += Convert.ToInt32(Value);
             if (MainController.P1LP < 0)
             {
@@ -149,6 +165,7 @@ public class P1Calculator : MonoBehaviour
         }
         else if (IndexCal == 2)
         {
+            CS.Play();
             MainController.P1LP -= Convert.ToInt32(Value);
             if (MainController.P1LP < 0)
             {
@@ -170,6 +187,7 @@ public class P1Calculator : MonoBehaviour
         }
         else if (IndexCal == 3)
         {
+            CS.Play();
             MainController.P1LP /= Convert.ToInt32(Value);
             if (MainController.P1LP < 0)
             {
@@ -194,6 +212,7 @@ public class P1Calculator : MonoBehaviour
 
     public void P1CalPanelClose()
     {
+        NCS.Play();
         P1Panel.SetActive(false);
     }
 }
