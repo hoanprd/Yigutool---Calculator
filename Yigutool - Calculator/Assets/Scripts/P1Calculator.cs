@@ -136,11 +136,11 @@ public class P1Calculator : MonoBehaviour
 
             if (MainController.Log == null || MainController.Log == "")
             {
-                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
             }
             else
             {
-                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " + " + Value + " = " + MainController.P1LP;
             }
 
             DeleteValue();
@@ -157,11 +157,11 @@ public class P1Calculator : MonoBehaviour
 
             if (MainController.Log == null || MainController.Log == "")
             {
-                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
             }
             else
             {
-                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " - " + Value + " = " + MainController.P1LP;
             }
 
             DeleteValue();
@@ -178,11 +178,11 @@ public class P1Calculator : MonoBehaviour
 
             if (MainController.Log == null || MainController.Log == "")
             {
-                MainController.Log = "Turn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
+                MainController.Log = "Turn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
             }
             else
             {
-                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MenuController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
+                MainController.Log += "\nTurn " + MainController.NumTurn + " (" + MainController.P1Name + "): " + P1CurLPInput.text + " : " + Value + " = " + MainController.P1LP;
             }
 
             DeleteValue();

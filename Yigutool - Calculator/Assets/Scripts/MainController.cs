@@ -11,16 +11,18 @@ public class MainController : MonoBehaviour
 
     public GameObject P1Panel, P2Panel;
     public GameObject SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmToMenuPanel;
-    public GameObject P1ShowTurn, P2ShowTurn;
+    public GameObject P1ShowTurn, P2ShowTurn, PauseTimerP1, PauseTimerP2;
     public GameObject[] DiceFace;
     public GameObject[] CoinFace;
     public Button DP, SP, MP1, BP, MP2, EP;
     public Animator AniSetting, AniTool;
-    public Text P1NameTag, P2NameTag, P1LPText, P2LPText;
+    public Text P1NameTag, P2NameTag, P1LPText, P2LPText, P1TurnTimerText, P2TurnTimerText;
     public Text NumTurnText;
 
-    public int PGo, DiceRand, CoinRand;
-    public static int NumTurn, StatePhase, P1LP, P2LP;
+    public int PGo, DiceRand, CoinRand, MinTurnTimerP1, SecTurnTimerP1, MinTurnTimerP2, SecTurnTimerP2, PauseTimerIndexP1, PauseTimerIndexP2;
+    public bool P1PauseTimer, P2PauseTimer;
+    public static int NumTurn, StatePhase, P1LP, P2LP, StatePlayerTurn;
+    public static float BaseTotalTurnTimer, TotalTurnTimerP1, TotalTurnTimerP2;
     public static string P1Name, P2Name, Log;
     private int SettingIndex, ToolIndex;
 
@@ -28,6 +30,7 @@ public class MainController : MonoBehaviour
     void Start()
     {
         SettingIndex = ToolIndex = 0;
+        PauseTimerIndexP1 = PauseTimerIndexP2 = 0;
 
         if (MenuController.GoFirst == 1)
         {
@@ -63,23 +66,35 @@ public class MainController : MonoBehaviour
 
         if (NumTurn % 2 != 0 && PGo == 1)
         {
+            StatePlayerTurn = 1;
             P1ShowTurn.SetActive(true);
             P2ShowTurn.SetActive(false);
+            PauseTimerP1.SetActive(true);
+            PauseTimerP2.SetActive(false);
         }
         else if (NumTurn % 2 != 0 && PGo == 2)
         {
+            StatePlayerTurn = 2;
             P1ShowTurn.SetActive(false);
             P2ShowTurn.SetActive(true);
+            PauseTimerP1.SetActive(false);
+            PauseTimerP2.SetActive(true);
         }
         else if (NumTurn % 2 == 0 && PGo == 1)
         {
+            StatePlayerTurn = 2;
             P1ShowTurn.SetActive(false);
             P2ShowTurn.SetActive(true);
+            PauseTimerP1.SetActive(false);
+            PauseTimerP2.SetActive(true);
         }
         else if (NumTurn % 2 == 0 && PGo == 2)
         {
+            StatePlayerTurn = 1;
             P1ShowTurn.SetActive(true);
             P2ShowTurn.SetActive(false);
+            PauseTimerP1.SetActive(true);
+            PauseTimerP2.SetActive(false);
         }
 
         if (StatePhase == 1)
@@ -94,6 +109,44 @@ public class MainController : MonoBehaviour
             MP2Button();
         else if (StatePhase == 6)
             EPButton();
+
+        MinTurnTimerP1 = (int)(TotalTurnTimerP1 % 3600 / 60);
+        SecTurnTimerP1 = (int)(TotalTurnTimerP1 % 3600 % 60);
+        P1TurnTimerText.text = MinTurnTimerP1 + ":" + SecTurnTimerP1;
+
+        MinTurnTimerP2 = (int)(TotalTurnTimerP2 % 3600 / 60);
+        SecTurnTimerP2 = (int)(TotalTurnTimerP2 % 3600 % 60);
+        P2TurnTimerText.text = MinTurnTimerP2 + ":" + SecTurnTimerP2;
+
+        if (TotalTurnTimerP1 > 0 && StatePlayerTurn == 1 && P1PauseTimer == false)
+        {
+            TotalTurnTimerP1 -= 1 * Time.deltaTime;
+        }
+        else if (TotalTurnTimerP1 > 0 && StatePlayerTurn == 1 && P1PauseTimer == true)
+        {
+            TotalTurnTimerP2 -= 1 * Time.deltaTime;
+        }
+        else if (TotalTurnTimerP1 <= 0)
+        {
+            TotalTurnTimerP1 = BaseTotalTurnTimer;
+            ChangeTurn();
+            DPButton();
+        }
+
+        if (TotalTurnTimerP2 > 0 && StatePlayerTurn == 2 && P2PauseTimer == false)
+        {
+            TotalTurnTimerP2 -= 1 * Time.deltaTime;
+        }
+        else if (TotalTurnTimerP2 > 0 && StatePlayerTurn == 2 && P2PauseTimer == true)
+        {
+            TotalTurnTimerP1 -= 1 * Time.deltaTime;
+        }
+        else if (TotalTurnTimerP2 <= 0)
+        {
+            TotalTurnTimerP2 = BaseTotalTurnTimer;
+            ChangeTurn();
+            DPButton();
+        }
     }
 
     //Turn
@@ -101,6 +154,27 @@ public class MainController : MonoBehaviour
     {
         NumTurn++;
         NumTurnText.text = "Turn\n" + NumTurn;
+        TotalTurnTimerP1 = BaseTotalTurnTimer;
+        TotalTurnTimerP2 = BaseTotalTurnTimer;
+    }
+
+    //Timer
+    public void P1PauseButton()
+    {
+        PauseTimerIndexP1++;
+        if (PauseTimerIndexP1 % 2 != 0)
+            P1PauseTimer = true;
+        else if (PauseTimerIndexP1 % 2 == 0)
+            P1PauseTimer = false;
+    }
+
+    public void P2PauseButton()
+    {
+        PauseTimerIndexP2++;
+        if (PauseTimerIndexP2 % 2 != 0)
+            P2PauseTimer = true;
+        else if (PauseTimerIndexP2 % 2 == 0)
+            P2PauseTimer = false;
     }
 
     //Phase
@@ -255,9 +329,13 @@ public class MainController : MonoBehaviour
         PlayerPrefs.SetInt("SStatePhase", StatePhase);
         PlayerPrefs.SetInt("SP1LP", P1LP);
         PlayerPrefs.SetInt("SP2LP", P2LP);
+        PlayerPrefs.SetFloat("STotalTurnTimer", BaseTotalTurnTimer);
+        PlayerPrefs.SetFloat("STotalTurnTimerP1", TotalTurnTimerP1);
+        PlayerPrefs.SetFloat("STotalTurnTimerP2", TotalTurnTimerP2);
         PlayerPrefs.SetString("SP1Name", P1Name);
         PlayerPrefs.SetString("SP2Name", P2Name);
         PlayerPrefs.SetString("SLog", Log);
+        PlayerPrefs.SetInt("SSave", 1);
     }
 
     //Dice function
