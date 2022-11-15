@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundController : MonoBehaviour
+public class SoundControllerMenu : MonoBehaviour
 {
     [SerializeField] Slider volumeSlider1;
     public AudioSource[] FX;

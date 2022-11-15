@@ -11,7 +11,7 @@ public class MainController : MonoBehaviour
 
     public GameObject P1Panel, P2Panel;
     public GameObject SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmToMenuPanel;
-    public GameObject P1ShowTurn, P2ShowTurn, PauseTimerP1, PauseTimerP2;
+    public GameObject P1ShowTurn, P2ShowTurn, PauseTimerP1, PauseTimerP2, SaveA;
     public GameObject[] DiceFace;
     public GameObject[] CoinFace;
     public Button DP, SP, MP1, BP, MP2, EP;
@@ -352,6 +352,8 @@ public class MainController : MonoBehaviour
         PlayerPrefs.SetString("SP2Name", P2Name);
         PlayerPrefs.SetString("SLog", Log);
         PlayerPrefs.SetInt("SSave", 1);
+        SaveA.SetActive(true);
+        StartCoroutine(DisplaySaveA());
     }
 
     //Dice function
@@ -414,5 +416,12 @@ public class MainController : MonoBehaviour
             else
                 CoinFace[i].SetActive(false);
         }
+    }
+
+    IEnumerator DisplaySaveA()
+    {
+        yield return new WaitForSeconds(2f);
+
+        SaveA.SetActive(false);
     }
 }

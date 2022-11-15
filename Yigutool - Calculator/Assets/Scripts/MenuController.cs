@@ -13,18 +13,22 @@ public class MenuController : MonoBehaviour
     public GameObject HowToUsePanel;
     public GameObject SettingPanel;
     public GameObject LogA;
+    public GameObject AboutUsPanel;
     public GameObject[] DiceFace;
+    public GameObject[] TutoI;
     public InputField P1NameInput, P2NameInput, LPInput, TurnTimerInput;
     public AudioSource NCS, CCS, CS;
 
     public static string P1Name, P2Name;
-    public int DiceRand;
+    public int DiceRand, TutoIIndex;
 
     public static int GoFirst = 1;
 
     // Start is called before the first frame update
     void Start()
     {
+        TutoIIndex = 0;
+
         P1NameInput.text = "Player 1";
         P2NameInput.text = "Player 2";
 
@@ -139,13 +143,26 @@ public class MenuController : MonoBehaviour
     public void OpenHowToUsePanel()
     {
         NCS.Play();
+        TutoIIndex = 0;
         HowToUsePanel.SetActive(true);
+
+        for (int i = 0; i < TutoI.Length; i++)
+        {
+            if (TutoIIndex == i)
+            {
+                TutoI[i].SetActive(true);
+            }
+            else
+            {
+                TutoI[i].SetActive(false);
+            }
+        }
     }
 
     public void OpenSettingPanel()
     {
         NCS.Play();
-        SettingPanel.SetActive(true);
+        SettingPanel.SetActive(true);    
     }
 
     public void DeleteLoadDuel()
@@ -163,8 +180,30 @@ public class MenuController : MonoBehaviour
     public void CloseHowToUsePanel()
     {
         NCS.Play();
+        TutoIIndex = 0;
         HowToUsePanel.SetActive(false);
     }
+
+    public void NextButton()
+    {
+        if (TutoIIndex < 3)
+        {
+            NCS.Play();
+            TutoIIndex++;
+        }
+
+        for (int i = 0; i < TutoI.Length; i++)
+        {
+            if (TutoIIndex == i)
+            {
+                TutoI[i].SetActive(true);
+            }
+            else
+            {
+                TutoI[i].SetActive(false);
+            }
+        }
+    }    
 
     public void CloseSettingPanel()
     {
@@ -173,10 +212,16 @@ public class MenuController : MonoBehaviour
         SettingPanel.SetActive(false);
     }
 
-    public void AboutUsButton()
+    public void OpenAboutUsPanel()
     {
         NCS.Play();
-        Process.Start("https://www.facebook.com/hoan.nguyenduy.7967");
+        AboutUsPanel.SetActive(true);
+    }
+
+    public void CloseAboutUsPanel()
+    {
+        NCS.Play();
+        AboutUsPanel.SetActive(false);
     }
 
     IEnumerator LoadLogA()
