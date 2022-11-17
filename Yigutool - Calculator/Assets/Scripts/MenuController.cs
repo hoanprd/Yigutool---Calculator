@@ -19,6 +19,8 @@ public class MenuController : MonoBehaviour
     public InputField P1NameInput, P2NameInput, LPInput, TurnTimerInput;
     public AudioSource NCS, CCS, CS;
 
+    public static int P1R, P2R;
+    public static float BaseTimeR;
     public static string P1Name, P2Name;
     public int DiceRand, TutoIIndex;
 
@@ -51,6 +53,10 @@ public class MenuController : MonoBehaviour
         {
             TurnTimerInput.text = PlayerPrefs.GetInt("SSettingTurnTimer").ToString();
         }
+
+        P1R = Convert.ToInt32(LPInput.text);
+        P2R = Convert.ToInt32(LPInput.text);
+        BaseTimeR = 60 * float.Parse(TurnTimerInput.text);
     }
 
     public void OpenDuelPanel()
@@ -91,6 +97,9 @@ public class MenuController : MonoBehaviour
         MainController.TotalTurnTimerP1 = MainController.BaseTotalTurnTimer;
         MainController.TotalTurnTimerP2 = MainController.BaseTotalTurnTimer;
         MainController.Log = null;
+        P1R = Convert.ToInt32(LPInput.text);
+        P2R = Convert.ToInt32(LPInput.text);
+        BaseTimeR = 60 * float.Parse(TurnTimerInput.text);
         SceneManager.LoadScene("Main");
     }
 
@@ -108,6 +117,9 @@ public class MenuController : MonoBehaviour
         MainController.TotalTurnTimerP1 = MainController.BaseTotalTurnTimer;
         MainController.TotalTurnTimerP2 = MainController.BaseTotalTurnTimer;
         MainController.Log = null;
+        P1R = Convert.ToInt32(LPInput.text);
+        P2R = Convert.ToInt32(LPInput.text);
+        BaseTimeR = 60 * float.Parse(TurnTimerInput.text);
         SceneManager.LoadScene("Main");
     }
 
@@ -209,6 +221,7 @@ public class MenuController : MonoBehaviour
     {
         NCS.Play();
         PlayerPrefs.SetInt("SSettingLP", Convert.ToInt32(LPInput.text));
+        PlayerPrefs.SetInt("SSettingTurnTimer", Convert.ToInt32(TurnTimerInput.text));
         SettingPanel.SetActive(false);
     }
 

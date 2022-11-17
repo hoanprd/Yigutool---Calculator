@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MainController : MonoBehaviour
 {
+    MenuController menuc;
     P1Calculator p1c;
     P2Calculator p2c;
 
     public GameObject P1Panel, P2Panel;
-    public GameObject SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmToMenuPanel;
+    public GameObject ResetPanel, SettingPanel, ToolPanel, DicePanel, CoinPanel, ConfirmRestartPanel, ConfirmToMenuPanel;
     public GameObject P1ShowTurn, P2ShowTurn, PauseTimerP1, PauseTimerP2, SaveA;
     public GameObject[] DiceFace;
     public GameObject[] CoinFace;
     public Button DP, SP, MP1, BP, MP2, EP;
-    public Animator AniSetting, AniTool;
+    public Animator AniReset, AniSetting, AniTool;
+    public InputField FindCardInput;
     public Text P1NameTag, P2NameTag, P1LPText, P2LPText, P1TurnTimerText, P2TurnTimerText;
     public Text NumTurnText;
     public AudioSource NCS, CCS, CS;
@@ -25,7 +28,7 @@ public class MainController : MonoBehaviour
     public static int NumTurn, StatePhase, P1LP, P2LP, StatePlayerTurn;
     public static float BaseTotalTurnTimer, TotalTurnTimerP1, TotalTurnTimerP2;
     public static string P1Name, P2Name, Log;
-    private int SettingIndex, ToolIndex;
+    private int ResetIndex, SettingIndex, ToolIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +52,7 @@ public class MainController : MonoBehaviour
 
         UpdateUI();
 
+        menuc = FindObjectOfType<MenuController>();
         p1c = FindObjectOfType<P1Calculator>();
         p2c = FindObjectOfType<P2Calculator>();
     }
@@ -158,6 +162,7 @@ public class MainController : MonoBehaviour
         NumTurnText.text = "Turn\n" + NumTurn;
         TotalTurnTimerP1 = BaseTotalTurnTimer;
         TotalTurnTimerP2 = BaseTotalTurnTimer;
+        DPButton();
     }
 
     //Timer
@@ -261,6 +266,78 @@ public class MainController : MonoBehaviour
         NCS.Play();
         P2Panel.SetActive(true);
         p2c.UIUpdate();
+    }
+
+    public void FindCard()
+    {
+        Application.OpenURL("https://yugipedia.com/wiki/" + FindCardInput.text);
+    }
+
+    public void ResetPanelOpen()
+    {
+        NCS.Play();
+        ResetIndex++;
+        if (ResetIndex % 2 != 0)
+        {
+            ResetPanel.GetComponent<Animator>().enabled = true;
+            AniReset.SetTrigger("OpenReset");
+        }
+        else if (ResetIndex % 2 == 0)
+        {
+            AniReset.SetTrigger("CloseReset");
+        }
+    }
+
+    public void BackwardTurn()
+    {
+        NCS.Play();
+        if (NumTurn > 1)
+        {
+            NumTurn--;
+            NumTurnText.text = "Turn\n" + NumTurn;
+            TotalTurnTimerP1 = BaseTotalTurnTimer;
+            TotalTurnTimerP2 = BaseTotalTurnTimer;
+        }
+    }
+
+    public void OpenRestartGamePanel()
+    {
+        ConfirmRestartPanel.SetActive(true);
+    }
+
+    public void CloseRestartGamePanel()
+    {
+        ConfirmRestartPanel.SetActive(false);
+    }
+
+    public void RestartP1GoFirst()
+    {
+        NCS.Play();
+        MenuController.GoFirst = 1;
+        NumTurn = 1;
+        StatePhase = 1;
+        P1LP = MenuController.P1R;
+        P2LP = MenuController.P2R;
+        BaseTotalTurnTimer = MenuController.BaseTimeR;
+        TotalTurnTimerP1 = BaseTotalTurnTimer;
+        TotalTurnTimerP2 = BaseTotalTurnTimer;
+        Log = null;
+        SceneManager.LoadScene("Main");
+    }
+
+    public void RestartP2GoFirst()
+    {
+        NCS.Play();
+        MenuController.GoFirst = 2;
+        NumTurn = 1;
+        StatePhase = 1;
+        P1LP = MenuController.P1R;
+        P2LP = MenuController.P2R;
+        BaseTotalTurnTimer = MenuController.BaseTimeR;
+        TotalTurnTimerP1 = BaseTotalTurnTimer;
+        TotalTurnTimerP2 = BaseTotalTurnTimer;
+        Log = null;
+        SceneManager.LoadScene("Main");
     }
 
     public void SettingPanelOpen()
@@ -373,7 +450,7 @@ public class MainController : MonoBehaviour
     //Delay
     IEnumerator DelayDice()
     {
-        DiceRand = Random.Range(0, 6);
+        DiceRand = UnityEngine.Random.Range(0, 6);
 
         for (int i = 0; i < DiceFace.Length; i++)
         {
@@ -401,7 +478,7 @@ public class MainController : MonoBehaviour
 
     IEnumerator DelayCoin()
     {
-        CoinRand = Random.Range(0, 2);
+        CoinRand = UnityEngine.Random.Range(0, 2);
 
         for (int i = 0; i < CoinFace.Length; i++)
         {
