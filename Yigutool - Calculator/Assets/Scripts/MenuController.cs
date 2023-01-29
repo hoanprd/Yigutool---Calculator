@@ -14,6 +14,7 @@ public class MenuController : MonoBehaviour
     public GameObject SettingPanel;
     public GameObject LogA;
     public GameObject AboutUsPanel;
+    public GameObject OnTimerButton, OffTimerButton;
     public GameObject[] DiceFace;
     public GameObject[] TutoI;
     public InputField P1NameInput, P2NameInput, LPInput, TurnTimerInput;
@@ -54,9 +55,26 @@ public class MenuController : MonoBehaviour
             TurnTimerInput.text = PlayerPrefs.GetInt("SSettingTurnTimer").ToString();
         }
 
+        if (!PlayerPrefs.HasKey("SOnOffTimer"))
+        {
+            PlayerPrefs.SetInt("SOnOffTimer", 1);
+        }
+
         P1R = Convert.ToInt32(LPInput.text);
         P2R = Convert.ToInt32(LPInput.text);
+
         BaseTimeR = 60 * float.Parse(TurnTimerInput.text);
+
+        if (PlayerPrefs.GetInt("SOnOffTimer") == 1)
+        {
+            OnTimerButton.SetActive(true);
+            OffTimerButton.SetActive(false);
+        }
+        else
+        {
+            OnTimerButton.SetActive(false);
+            OffTimerButton.SetActive(true);
+        }    
     }
 
     public void OpenDuelPanel()
@@ -175,6 +193,22 @@ public class MenuController : MonoBehaviour
     {
         NCS.Play();
         SettingPanel.SetActive(true);    
+    }
+
+    public void OnTimer()
+    {
+        NCS.Play();
+        OnTimerButton.SetActive(true);
+        OffTimerButton.SetActive(false);
+        PlayerPrefs.SetInt("SOnOffTimer", 1);
+    }
+
+    public void OffTimer()
+    {
+        NCS.Play();
+        OnTimerButton.SetActive(false);
+        OffTimerButton.SetActive(true);
+        PlayerPrefs.SetInt("SOnOffTimer", 0);
     }
 
     public void DeleteLoadDuel()
